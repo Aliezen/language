@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from wiki.models import Category, Page
+import random
 
 def init(request):
     if User.objects.filter(username='admin'):
@@ -55,6 +56,15 @@ def init(request):
         popPage(category=djangoCategory,
                 title='如何和 Django 跳探戈',
                 url='http://www.tangowithdjango.com/')
+        
+        # Other frameworks
+        frameCategory = popCategory('其他框架')
+        popPage(category=frameCategory,
+                title='Bottle 框架',
+                url='http://bottlepy.org/docs/dev/')
+        popPage(category=frameCategory,
+                title='Flask 框架',
+                url='http://flask.pocoo.org')
     
     # endif
     
@@ -70,7 +80,9 @@ def init(request):
     return render(request, 'init/init.html', context)
 
 def popCategory(name):
-    category = Category.objects.get_or_create(name=name)[0]
+    category = Category.objects.get_or_create(name=name,
+                                              views=random.randint(0,20),
+                                              likes=random.randint(0,20))[0]
     return category
 
 
