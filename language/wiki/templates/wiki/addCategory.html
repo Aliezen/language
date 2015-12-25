@@ -1,14 +1,7 @@
-<!doctype html>
-{% load staticfiles %}
-<html>
-<head>
-<title>程式語言小百科</title>
-<meta charset=utf-8>
-<link rel=stylesheet href={% static 'main/css/main.css' %}>
-</head>
-<body>
+{% extends "main/base.html" %}
+{% block heading %}新增程式語言分類{% endblock %}
+{% block content %}
 
-<h1>新增一個程式語言分類</h1>
 <form method=post action={% url 'wiki:addCategory' %}>
   {% csrf_token %}
   {{form.as_p}}
@@ -21,5 +14,4 @@
        
 <p><a href={% url 'wiki:wiki' %}>回Wiki頁面</a></p>
 
-</body>
-</html>
+{% endblock %}

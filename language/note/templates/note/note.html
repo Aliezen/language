@@ -1,0 +1,24 @@
+
+<!doctype html> 
+{% load staticfiles %}
+<html> 
+<head>
+<title>從現在開始叫我期末作業</title>
+<meta charset=utf-8>
+<link rel=stylesheet href={% static 'note/css/note.css' %}>
+</head>
+<body>
+<h1>note 說--請叫我期末作業</h1>
+
+<iframe width="420" height="315" 
+ src="https://www.youtube.com/embed/nrmO6kc8VFQ"
+ frameborder="0" allowfullscreen></iframe>
+<p><a href={% url 'wiki:addCategory' %}>新增</a></p>
+<p><a href= "{% url 'main:main' %}" >回首頁</a></p>
+
+<!-- 
+<br>
+<img src="{% static 'wiki/img/proglang.png' %}" alt="程式語言影像">
+-->
+</body>
+</html>  
