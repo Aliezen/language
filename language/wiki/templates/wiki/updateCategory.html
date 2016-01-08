@@ -5,9 +5,15 @@
 <form method=post action={% url 'wiki:updateCategory' category.id %}>
  {% csrf_token %}
  {{form.as_p}}
- <input type=submit value=送出>
+ <button class="btn btn-warning dropdown-toggle" type=submit>送出</button>
 </form>
 <br>
-<p><a href={% url 'wiki:wiki' %}>回 Wiki 網頁</a></p>
+
+
+<a href= "{% url 'wiki:wiki' %}" >
+<button class="btn btn-danger dropdown-toggle">
+回目錄
+</button>
+</a>
 
 {% endblock %}

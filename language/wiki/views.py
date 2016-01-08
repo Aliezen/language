@@ -54,13 +54,19 @@ def addPage(request, categoryID):
         context['form'] = PageForm()
         return render(request, template, context)
     # request.method=='POST
+    
     form = PageForm(request.POST)
     context['form'] = form
+
     if not form.is_valid():
+        context['error'] = "error"
         return render(request, template, context)
+    
     page = form.save(commit=False)
     page.category = pageCategory
     page.save()
+    context['error'] = "pass"
+    #return render(request, template, context)
     return redirect(reverse('wiki:category', args=(categoryID, )))
 
 

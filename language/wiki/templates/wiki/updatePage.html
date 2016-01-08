@@ -1,14 +1,39 @@
 {% extends "main/base.html" %}
-{% block heading %}修改「{{page.title}}」網頁{% endblock %}
+{% block heading %}{% endblock %}
+
+{% block head %}<script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
+
+<script>tinymce.init({
+      selector: 'textarea',
+      height: 500,
+      plugins: [
+        'advlist autolink lists link image charmap print preview anchor',
+        'searchreplace visualblocks code fullscreen',
+        'insertdatetime media table contextmenu paste code'
+      ],
+      toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+      content_css: [
+        'https://fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
+        'https://www.tinymce.com/css/codepen.min.css'
+      ]
+    });</script>
+{% endblock%}
+
+
 {% block content %}
 
-<form method=post action={% url 'wiki:updatePage' page.id %}>
+<div class="container">
+<form method=post action={% url 'wiki:updatePage' page.id %} enctype＝"multipart/form-data">
  {% csrf_token %}
  {{form.as_p}}
- <input type=submit value=送出>
+ <button class="btn btn-warning dropdown-toggle" type=submit>送出</button>
 </form>
-<br>
-<p><a href={% url 'wiki:category' page.category.id %}>回「{{page.category.name}}」網頁
-</a></p>
+</div>
+
+<a href= "{% url 'wiki:category' page.category.id %}" >
+<button class="btn btn-danger dropdown-toggle">
+回「{{page.category.name}}」網頁
+</button>
+</a>
 
 {% endblock %}

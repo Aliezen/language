@@ -1,16 +1,53 @@
 {% extends "main/base.html" %}
-{% block heading %}在"{{category.name}}"分類中新增一筆頁面{% endblock %}
+{% block heading %}{% endblock %}
+
+{% block head %}<script src="https://cdn.tinymce.com/4/tinymce.min.js"></script>
+
+<script>tinymce.init({
+      selector: 'textarea',
+      height: 500,
+      plugins: [
+        'advlist autolink lists link image charmap print preview anchor',
+        'searchreplace visualblocks code fullscreen',
+        'insertdatetime media table contextmenu paste code'
+      ],
+      toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+      content_css: [
+        'https://fast.fonts.net/cssapi/e6dc9b99-64fe-4292-ad98-6974f93cd2a2.css',
+        'https://www.tinymce.com/css/codepen.min.css'
+      ]
+    });</script>
+{% endblock%}
+
+
+
 {% block content %}
 
-<form method=post action={% url 'wiki:addPage' category.id %}>
+<div class="container">
+<form method=post action={% url 'wiki:addPage' category.id %} enctype＝"multipart/form-data">
     {% csrf_token %}
-    {{form.as_p}}
-    <input type=submit value=送出>
+    {{form.title}}
+    {{ form.title.errors }}
+    here {{error}} here
+    <br>
+        {{ form.content.errors }}
+    {{form.content}}
+    <button class="btn btn-warning dropdown-toggle" type=submit>送出</button>
 </form>
 <br>
+</div>
+
+<!-- 
 <input type="button" value="回到{{category.name}}頁面" 
        onclick="location='{% url 'wiki:category' category.name %}'">
-       
+
 <p><a href={% url 'wiki:category' category.id %}>回{{category.name}}頁面</a></p>
+ -->
+
+<a href= "{% url 'wiki:wiki' %}" >
+<button class="btn btn-danger dropdown-toggle">
+回目錄
+</button>
+</a>
 
 {% endblock %}

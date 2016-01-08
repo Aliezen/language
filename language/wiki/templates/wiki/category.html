@@ -1,21 +1,35 @@
 {% extends "main/base.html" %}
-{% block heading %}「{{category.name}}」之相關網頁{% endblock %}
+{% block heading %}{% endblock %}
 {% block content %}
 
     {% if category %}
          <!-- <h1>{{category.name}}</h1>  -->
     {% if pages %}
-     <table>
-     <tr><th>頁面標題</th></tr>
+    
+    <br>
+    
+     <tr><th><font size="6">{{category.name}}</font></th></tr>
+     
+     <br>
+   <br>
+   
     {% for page in pages %}
+    <!-- 
+    <a href={{page.url}}>{{page.title}} by ({{user.username}})</a>
+     -->
+    <font size="5" color="blue">{{page.title}} by ({{user.username}})</font>
+    <hr>
+    {{page.content|safe}}
+    <br>
         <tr>
           <td>
-            <a href={{page.url}}>{{page.title}}</a>
+            
+            <br>
           </td>
           <td>
           {% if user.is_authenticated %}
             <form action={% url 'wiki:updatePage' page.id %}>
-            <input type=submit value=修改>
+            <button class="btn btn-primary dropdown-toggle" type=submit>編輯</button>
             </form>
           {% endif %}
           </td>
@@ -23,18 +37,31 @@
           {% if user.is_authenticated %}
             <form method=post action={% url 'wiki:deletePage' page.id %}>
               {% csrf_token %}
-              <input type=submit value=刪除>
+              <button class="btn btn-info dropdown-toggle" type=submit>刪除此篇</button>
             </form>
           {% endif %}
           </td>
         </tr>
     {% endfor %}
-    </table>
+    
+  
     {% else %}
-        <p><strong>此類別目前並無頁面。</strong></p>
+        <p><strong>此類別目前並無文章。</strong></p>
+        <!-- 
+        <p><a href={% url 'wiki:addPage' category.id %}>新增文章</a></p>
+         -->
+        <a href= "{% url 'wiki:addPage' category.id %}">
+        <button class="btn btn-danger dropdown-toggle">
+        新增文章
+        </button>
+        </a>
+        
     {% endif %}
+    
     {% if user.is_authenticated %}
+    <!-- 
     <p><a href={% url 'wiki:addPage' category.id %}>新增頁面</a></p>
+     -->
     {% endif %}
     {% else %}
         <p>所指定的類別「{{category.name}}」不存在。</p>
@@ -43,7 +70,164 @@
 <!-- 
 <input type="button" value="上一頁" onclick="history.back()">
  -->
- 
-<p><a href= "{% url 'wiki:wiki' %}" >回wiki頁面</a></p>
+
+<a href= "{% url 'wiki:wiki' %}" >
+<button class="btn btn-danger dropdown-toggle">
+回目錄
+</button>
+</a>
+
+<br>
+<br>
+
+<a target="_blank" href="http://www.facebook.com/share.php?u=分享網址">
+<img title="分享到臉書！" src="http://www.enjoygourmet.com/images_icon/facebook.png" border="0" width="50" /></a>
+<a target="_blank" href="http://twitter.com/home/?status=網址標題 分享網址">
+<img title="分享到推特！" src="https://upload.wikimedia.org/wikipedia/zh/thumb/9/9f/Twitter_bird_logo_2012.svg/1261px-Twitter_bird_logo_2012.svg.png" border="0" width="50" /></a>
+<a target="_blank" href="https://plus.google.com/share?url=分享網址">
+<img title="分享到Google+！" src="https://www.gstatic.com/images/icons/gplus-32.png" border="0" width="50" /></a>
+<a target="_blank" href="http://v.t.sina.com.cn/share/share.php?title=網址標題&url=分享網址">
+<img title="分享到微博！" src="http://img.haote.com/upload/info/20130626/1372235898483255.png" border="0" width="50" /></a> 
+<a target="_blank" href="http://plurk.com/?qualifier=shares&status=[分享] 分享網址 (網址標題)">
+<img title="分享到噗浪！" src="https://lh5.ggpht.com/LEMHzz8KsIiu3EXocwcuxF_hgq9SIr8ZUFxWimp3woEtvPPUjCwazsMtl5dwf_dadnc=w300" border="0" width="50" /></a>
+
+<hr>
+
+<center>
+<form action=gb.php method=post>
+<input type=hidden name=id value="<!-GuestBookID>">
+<input type=hidden name=function value=ins>
+
+<table width="100%" border="3" cellspacing="0" cellpadding="0" bgcolor="#B8C7FA" >
+<tr>
+<td colspan="4" height="29" bgcolor="#688DE3" align="center" >
+<font color="#FFFFFF" size="3">留言板</font>
+</td>
+</tr>
+<tr>
+<td bgcolor="#205780" align="center" width="1%" >
+<font size="2" color="#205780">-</font>
+</td >
+<td bgcolor="#205780" align="center" width="7%" >
+<font size="2" color="#FFFFFF">時間</font>
+</td>
+<td bgcolor="#205780" width="12%" align="center">
+<font size="2" color="#FFFFFF">留言人</font>
+</td>
+<td bgcolor="#205780" width="80%" align="center">
+<font size="2" color="#FFFFFF">留言</font>
+</td>
+</tr>
+
+<!-GuestBookRep>
+<tr>
+<td bgcolor="#688DE3" width="1%">
+<font size="1" face="Arial" color="#FFFFFF">
+<!-GuestBookCount>
+</font>
+</td>
+<td bgcolor="#B3C6FF" width="7%" nowrap>
+<font size="1" face="Arial" color="#2C77AF">
+<!-GuestBookTrf-mon2>/<!-GuestBookTrf-mday2> <!-GuestBookTrf-hours2>:<!-GuestBookTrf-minutes2>
+</font>
+</td>
+<td bgcolor="#688DE3" width="12%">
+<font size="2" color="#FFFFFF">
+<!-GuestBookTrf01>
+</font>
+</td>
+<td width="80%" bgcolor="#B5D1FD">
+<font size="2" color="#205780">
+<!-GuestBookTrf04>
+</font>
+</td>
+</tr>
+<!-GuestBookRepEnd>
+<tr>
+<td bgcolor="#1E6DAE">
+<font color="#1E6DAE">-</font>
+</td>
+<td bgcolor="#1E6DAE" colspan="2" align="center">
+<font size="2" color="#B3C6FF">姓名</font>
+<font size="2"  color="#04238C">
+<input type="text" name=p01 value="" size="8" style="background-color: rgb(179,198,255)">
+</font>
+</td>
+<td bgcolor="#1E6DAE" width="100%">
+<font size="2" color="#B3C6FF">留言</font>
+<font size="2" color="#04238C">
+<input type="text" name=p04 size="50" style="background-color: rgb(179,198,255)">
+<input type="submit" value="傳送"  style="background-color: rgb(164,187,255)">
+</font>
+</td>
+</tr>
+</table>
+</form>
+<table border="0" width="100%" cellspacing="0" cellpadding="0">
+<tr>
+<td width="100%" bgcolor="#688DE3" align="center">
+<font size="2" color="#FFFFFF">
+<!-GuestBookPagePStart>
+<a href="<!-GuestBookPageP>">[較新的留言]</a>
+<!-GuestBookPagePEnd> <!-GuestBookPageNStart> 
+<a href="<!-GuestBookPageN>">[較早的留言]</a>
+<!-GuestBookPageNEnd>
+</font>
+</td>
+</tr>
+<tr>
+<td>
+<font size="2" color="#8080C0">
+目前有 <!-GuestBookItems> 則留言　　頁碼:<!-GuestBookPage> / <!-GuestBookTotalPage>
+</font>
+</td>
+</tr>
+</table>
+</center>
+
+<hr>
+<div id="MsgContent" style="width:94%;">
+      <h2><div id="MsgHead">發表評論</div></h2>
+      <div id="MsgBody">
+      
+      <script type="text/javascript">
+            function checkCommentPost(){
+                if (!CheckPost) return false
+                // 備用方法
+                return true
+            }
+      </script>
+      <form name="frm" action="blogcomm.asp" method="post" onsubmit="return checkCommentPost()" style="margin:0px;">      
+      <table width="100%" cellpadding="0" cellspacing="0">    
+      <tbody><tr><td align="right" width="70"><strong>昵　稱:</strong></td><td align="left" style="padding:3px;"><input name="username" type="text" size="18" class="userpass" maxlength="24"></td></tr>
+      <tr><td align="right" width="70"><strong>密　碼:</strong></td><td align="left" style="padding:3px;"><input name="password" type="password" size="18" class="userpass" maxlength="24"> 游客發言不需要密碼.</td></tr>
+      <tr><td align="right" width="70" valign="top"><strong>內　容:</strong><br>
+      <!-- 
+      </td><td style="padding:2px;"><script language="javascript" type="text/javascript" src="common/UBBCode.js"></script><script language="javascript" type="text/javascript" src="common/UBBCode_help.js"></script><div id="UBBSmiliesPanel" class="UBBSmiliesPanel"><table cellspacing="2" cellpadding="0"><tbody><tr><td><a href="javascript:AddSmiley('[smile]')" class="Smilie" title="[smile]"><img border="0" src="images/smilies/icon_smile.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[confused]')" class="Smilie" title="[confused]"><img border="0" src="images/smilies/icon_confused.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[cool]')" class="Smilie" title="[cool]"><img border="0" src="images/smilies/icon_cool.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[cry]')" class="Smilie" title="[cry]"><img border="0" src="images/smilies/icon_cry.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[eek]')" class="Smilie" title="[eek]"><img border="0" src="images/smilies/icon_eek.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[angry]')" class="Smilie" title="[angry]"><img border="0" src="images/smilies/icon_angry.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[wink]')" class="Smilie" title="[wink]"><img border="0" src="images/smilies/icon_wink.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[sweat]')" class="Smilie" title="[sweat]"><img border="0" src="images/smilies/icon_sweat.gif" alt=""></a></td></tr><tr><td><a href="javascript:AddSmiley('[lol]')" class="Smilie" title="[lol]"><img border="0" src="images/smilies/icon_lol.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[stun]')" class="Smilie" title="[stun]"><img border="0" src="images/smilies/icon_stun.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[razz]')" class="Smilie" title="[razz]"><img border="0" src="images/smilies/icon_razz.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[redface]')" class="Smilie" title="[redface]"><img border="0" src="images/smilies/icon_redface.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[rolleyes]')" class="Smilie" title="[rolleyes]"><img border="0" src="images/smilies/icon_rolleyes.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[sad]')" class="Smilie" title="[sad]"><img border="0" src="images/smilies/icon_sad.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[yes]')" class="Smilie" title="[yes]"><img border="0" src="images/smilies/icon_yes.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[no]')" class="Smilie" title="[no]"><img border="0" src="images/smilies/icon_no.gif" alt=""></a></td></tr><tr><td><a href="javascript:AddSmiley('[heart]')" class="Smilie" title="[heart]"><img border="0" src="images/smilies/icon_heart.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[star]')" class="Smilie" title="[star]"><img border="0" src="images/smilies/icon_star.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[music]')" class="Smilie" title="[music]"><img border="0" src="images/smilies/icon_music.gif" alt=""></a></td><td><a href="javascript:AddSmiley('[idea]')" class="Smilie" title="[idea]"><img border="0" src="images/smilies/icon_idea.gif" alt=""></a></td></tr></tbody></table></div><div id="editorbody"><div id="editorHead"><div class="editorTools"><div class="Toolsbar"><ul class="ToolsUL"><li><a id="A_bold" href="javascript:UBB_bold();void(0)" title="粗體" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/bold.gif" border="0" alt="粗體"></a></li><li><a id="A_italic" href="javascript:UBB_italic();void(0)" title="斜體" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/italic.gif" border="0" alt="斜體"></a></li><li><a id="A_underline" href="javascript:UBB_underline();void(0)" title="下劃線" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/underline.gif" border="0" alt="下劃線"></a></li></ul></div><div class="Toolsbar"><ul class="ToolsUL"><li><a id="A_image" href="javascript:UBB_image();void(0)" title="插入圖像" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/image.gif" border="0" alt="插入圖像"></a></li><li><a id="A_link" href="javascript:UBB_link();void(0)" title="超鏈接" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/link.gif" border="0" alt="超鏈接"></a></li><li><a id="A_mail" href="javascript:UBB_mail();void(0)" title="電子郵件" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/mail.gif" border="0" alt="電子郵件"></a></li><li><a id="A_quote" href="javascript:UBB_quote();void(0)" title="插入引用" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/quote.gif" border="0" alt="插入引用"></a></li><li><a id="A_smiley" href="javascript:UBB_smiley();void(0)" title="表情符號" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/smiley.gif" border="0" alt="表情符號"></a></li></ul></div><div style="clear: both;display: block;height:1px;overflow:hidden"></div></div></div><script>var ubbTools='<div class="editorTools"><div class="Toolsbar"><ul class="ToolsUL"><li><a id="A_bold" href="javascript:UBB_bold();void(0)" title="粗體" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/bold.gif" border="0" alt="粗體" /></a></li><li><a id="A_italic" href="javascript:UBB_italic();void(0)" title="斜體" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/italic.gif" border="0" alt="斜體" /></a></li><li><a id="A_underline" href="javascript:UBB_underline();void(0)" title="下劃線" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/underline.gif" border="0" alt="下劃線" /></a></li></ul></div><div class="Toolsbar"><ul class="ToolsUL"><li><a id="A_image" href="javascript:UBB_image();void(0)" title="插入圖像" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/image.gif" border="0" alt="插入圖像" /></a></li><li><a id="A_link" href="javascript:UBB_link();void(0)" title="超鏈接" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/link.gif" border="0" alt="超鏈接" /></a></li><li><a id="A_mail" href="javascript:UBB_mail();void(0)" title="電子郵件" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/mail.gif" border="0" alt="電子郵件" /></a></li><li><a id="A_quote" href="javascript:UBB_quote();void(0)" title="插入引用" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/quote.gif" border="0" alt="插入引用" /></a></li><li><a id="A_smiley" href="javascript:UBB_smiley();void(0)" title="表情符號" class="Toolsbutton"><img src="skins/wascApollo/UBB/Icons/smiley.gif" border="0" alt="表情符號" /></a></li></ul></div>
+      -->
+      <tr><td>
+      <div style="clear: both;display: block;height:1px;overflow:hidden"></div></div>'</script><div class="editorContent"><textarea name="Message" class="editTextarea" style="height:150px;;" cols="1" rows="1" accesskey="R"></textarea></div></div><script language="javascript" type="text/javascript">initUBB("Message")</script></td></tr>
+      <tr><td align="right" width="70"><strong>驗證碼:</strong></td><td align="left" style="padding:3px;"><input name="validate" type="text" size="4" class="userpass" maxlength="4"> <img id="vcodeImg" src="common/getcode.asp?s=0.31796977389603853" onerror="this.onerror=null;this.src='common/getcode.asp?s='+Math.random();" alt="驗證碼" title="看不清楚?換一張" style="margin-right:40px;cursor:pointer;width:40px;height:18px;margin-bottom:-4px;margin-top:3px;" onclick="src='common/getcode.asp?s='+Math.random()"></td></tr>
+      <tr><td align="right" width="70" valign="top"><strong>選　項:</strong></td><td align="left" style="padding:3px;">
+             <label for="label5"><input name="log_DisSM" type="checkbox" id="label5" value="1">禁止表情轉換</label>
+             <label for="label6"><input name="log_DisURL" type="checkbox" id="label6" value="1">禁止自動轉換鏈接</label>
+             <label for="label7"><input name="log_DisKey" type="checkbox" id="label7" value="1">禁止自動轉換關鍵字</label>
+      </td></tr>
+          <tr>
+            <td colspan="2" align="center" style="padding:3px;">
+              <input name="logID" type="hidden" value="3112">
+              <input name="action" type="hidden" value="post">
+              <input name="submit2" type="submit" class="userbutton" value="發表評論" accesskey="S">
+              <input name="button" type="reset" class="userbutton" value="重寫"></td>
+          </tr>
+          <tr>
+            <td colspan="2" align="right">
+             雖然發表評論不用注冊，但是為了保護您的發言權，建議您<a href="{% url 'account:register' %}">注冊帳號</a>. <br> 
+
+            </td>
+          </tr>       
+      </tbody></table></form>
+       </div></div>
+
 
 {% endblock %}

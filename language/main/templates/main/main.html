@@ -1,24 +1,61 @@
 {% extends "main/base.html" %}
-{% block heading %}首頁{% endblock %}
+{% block heading %}{% endblock %}
 {% block content %}
-
+{% load staticfiles %}
 <p>{{like}}</p>
+<!-- 
 {% if messages %}
     {% for message in messages %}
         <p {% if message.tags %} class={{message.tags}} {% endif %}>{{message}}</p>
     {% endfor %}
 {% endif %}
+ 
 
 <p>{{message}}</p> 
-<p>現在時間：<font color="red">{{now}}</font></p>
-<p><a href="{% url 'wiki:about' %}">關於程式語言小百科</a></p>
-<p><a href="{% url 'wiki:wiki' %}">前往 Wiki 頁面</a></p>
-<p><a href="{% url 'note:note' %}">前往學期作業頁面</a></p>
+-->
+
+<div align="center"><marquee id="ieslider" style="WIDTH: 1000px" scrollamount="10">
+<img src="{% static 'main/img/0.jpg' %}" border="0" /> 
+<img src="{% static 'main/img/1.jpg' %}" border="0" /> 
+<img src="{% static 'main/img/2.jpg' %}" border="0" />
+</marquee></div>
+
+<!-- 
+<script language="javascript">
+    var ImageMax = 3;
+    var imgValue = 0;
+    function change_image(){
+        imgValue++
+        if(imgValue==ImageMax){
+            imgValue = -1 ;setTimeout('change_image()', 0);
+        }
+        
+        else{
+            document.top_img.src='index_files/' + imgValue + '.jpg'; 
+            document.top_img.src= "{% static 'main/img/' + imgValue + '.jpg' %}";
+            setTimeout('change_image()', 1500);
+        }
+    }
+</script>
+ -->
+<hr>
+<h2 align="center"><a href="{% url 'wiki:wiki' %}">前往頁面</a></h2>
+
+<!-- <p><a href="{% url 'note:note' %}">前往學期作業頁面</a></p>  -->
 <br>
+
+
+
+<!-- 
 {% if user.is_authenticated %}
-    <p><a href={% url 'account:userLogout' %}>登出 ({{user.username}})</a></p>
+<p><a href={% url 'account:userLogout' %}>
+<button class="btn btn-warning dropdown-toggle">
+登出 ({{user.username}})
+</button>
+</a></p>
+    
 {% else %}
-    <p><a href={% url 'account:register' %}>註冊</a></p>
-    <p><a href={% url 'account:userLogin' %}>登入</a></p>
+    <p><a href={% url 'account:register' %}>註冊</a><a href={% url 'account:userLogin' %}>登入</a></p>
 {% endif %}
+ -->
 {% endblock %}

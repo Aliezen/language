@@ -17,8 +17,9 @@ class Category(models.Model):
 class Page(models.Model):
     category = models.ForeignKey(Category)
     title = models.CharField(max_length=128)
-    url = models.URLField()
+    #url = models.URLField()
     views = models.IntegerField(default=0)
+    content = models.TextField()
     
     def save(self, *args, **kwargs):
         self.title = self.title.replace(' ', '-')
